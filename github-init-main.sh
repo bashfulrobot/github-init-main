@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ### Decription
-# This script simply creates a new GitHub repository from the cli that defaults to using a branch called "main" (vs "master").
+# This script simply creates a new GitHub repository from the cli that defaults to using a branch called "main" (vs "master"). Also will set the repo to use SSH.
 
 ### Dependencies
 # This script makes use of:
@@ -12,6 +12,12 @@
 # script '[REPO NAME]' '[REPO DESCRIPTION]'
 # Note - you will want to quote your description, etc.
 
+### Configure
+GITHUB_USERNAME="bashfulrobot"
+# Where your repo will be created
+WORKING_DIR="${HOME}/tmp"
+
+### Main
 ME=$(basename "$0")
 
 show-usage() {
@@ -39,10 +45,10 @@ if [ -z "$2" ]
 fi
 
 
-mkdir -p $HOME/tmp/$1 && cd $HOME/tmp/$1
+mkdir -p ${WORKING_DIR}/$1 && cd ${WORKING_DIR}/$1
 git init
 gh repo create -d "$2" --public
-git remote set-url origin git@github.com:bashfulrobot/$1.git
+git remote set-url origin git@github.com:${GITHUB_USERNAME}/$1.git
 git checkout -b main
 echo "$2" >> README
 git add README
